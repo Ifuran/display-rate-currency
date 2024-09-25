@@ -1,35 +1,81 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Table } from "react-bootstrap";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
+import { useEffect } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const currencyApi = import.meta.env.VITE_CURRENCY_KEY;
 
+  const fetchCurrency = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://api.currencyfreaks.com/v2.0/rates/latest?apikey=${currencyApi}`
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchCurrency();
+  }, []);
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="row vh-100">
+        <div className="table-wrapper p-5 col-6 mx-auto">
+          <Table hover responsive className="text-center fs-5">
+            <thead>
+              <tr>
+                <th></th>
+                <th>We Buy</th>
+                <th>Exchange Rate</th>
+                <th>We Sell</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>CAD</td>
+                <td>100</td>
+                <td>95</td>
+                <td>98</td>
+              </tr>
+              <tr>
+                <td>IDR</td>
+                <td>102</td>
+                <td>96</td>
+                <td>97</td>
+              </tr>
+              <tr>
+                <td>JPY</td>
+                <td>100</td>
+                <td>95</td>
+                <td>98</td>
+              </tr>
+              <tr>
+                <td>CHF</td>
+                <td>102</td>
+                <td>96</td>
+                <td>97</td>
+              </tr>
+              <tr>
+                <td>EUR</td>
+                <td>100</td>
+                <td>95</td>
+                <td>98</td>
+              </tr>
+              <tr>
+                <td>USD</td>
+                <td>102</td>
+                <td>96</td>
+                <td>97</td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
